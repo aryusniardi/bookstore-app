@@ -1,0 +1,134 @@
+<template>
+    <v-navigation-drawer v-model="drawer" absolute fixed clipped>
+        <!-- header toolbar on toolbar -->
+        <v-toolbar light>
+            <v-btn icon light dark--text @click="drawer=false">
+                <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Bookstore</v-toolbar-title>
+        </v-toolbar>
+
+        <v-list v-if="guest">
+            <v-list-item>
+                <!-- register button -->
+                <v-btn @click="register()" depressed block rounded color="secondary lighten-4" class="white--text">
+                    Register <v-icon right dark> person_add</v-icon>
+                </v-btn>
+            </v-list-item>
+            <v-list-item>
+                <!-- login button -->
+                <v-btn @click="login()" depressed block rounded color="blue darken-1" class="white--text">
+                    Login <v-icon right dark> lock_open</v-icon>
+                </v-btn>
+            </v-list-item>
+        </v-list>
+
+                <v-list v-if="!guest">
+            <v-list-item>
+              <v-list-item-avatar>
+                <img v-if="user.avatar == null" :src="getImage('/unavailable.png')">
+                <img v-else :src="getImage('/users/' + user.avatar)">
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{user.name}}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-btn block small rounded depressed color="error lighten-1" class white--text @click.stop="logout()">
+                Logout
+                <v-icon small right dark> settings_power</v-icon>
+              </v-btn>
+            </v-list-item>
+        </v-list>
+
+        <v-list class="pt-0" dense>
+            <v-divider></v-divider>
+            <!-- Navigation Menu -->
+            <v-list-item v-for="(item, index) in items" :key="index" :href="item.route" :to="{name: item.route}">
+                <v-list-item-action>
+                    <v-icon > {{item.icon}} </v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>{{item.title}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  name: 'c-side-bar',
+  data: () => ({
+    items: [
+      { title: 'Home', icon: 'dashboard', route: 'home' },
+      { title: 'About', icon: 'question_answer', route: 'about' },
+    ]
+  }),
+  computed: {
+    // Mapping state sidebar using map getter
+    ...mapGetters({
+      sideBar: 'sideBar',
+      user: 'auth/user',
+      guest: 'auth/guest'
+    }),
+    drawer: {
+      get () {
+        return this.sideBar
+      },
+      set (value) {
+        this.setSideBar(value)
+      }
+    }
+  },
+  methods: {
+    // Mapping action setsidebar from store using map action
+    ...mapActions({
+      setSideBar: 'setSideBar',
+      setStatusDialog: 'dialog/setStatus',
+      setComponent: 'dialog/setComponent',
+      setAuth: 'auth/set',
+      setAlert: 'alert/set'
+    }),
+    login() {
+      this.setStatusDialog(true),
+      this.setComponent('login'),
+      this.setSideBar(false)
+    },
+    register() {
+      this.setStatusDialog(true),
+      this.setComponent('register'),
+      this.setSideBar(false)
+    },
+    logout() {
+      let config = {
+        headers: {
+          'Auhtorized' : 'Bearer ' + this.user.api_token,
+        }
+      }
+
+      this.axios.post('/logout', {}, config) 
+      .then(() => {
+        this.setAuth({})
+        this.setAlert({
+          status: true,
+          text: 'Logout Successfully',
+          type: 'success'
+        })
+        this.setSideBar(false)
+      })
+      .catch((error) => {
+        let responses = error.message
+        this.setAlert({
+          status: true,
+          text: responses.data.message,
+          type: 'error'
+        })
+      })
+    }
+  }
+}
+</script>
