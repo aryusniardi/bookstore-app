@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import './plugins/axios'
+import './plugins/helpers'
 import App from './App.vue'
 import './registerServiceWorker'
-import router from './router'
-import store from './store'
+import router from './routers'
+import store from './stores'
 import vuetify from './plugins/vuetify'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import './plugins/helpers'
 
 Vue.config.productionTip = false
 

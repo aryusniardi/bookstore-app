@@ -21,9 +21,9 @@
                     <v-list-item-avatar>
                         <img :src="getImage('/books/' + item.cover)">
                     </v-list-item-avatar>
-                    <v-item-content>
+                    <v-list-item-content>
                         <v-list-item-title v-html="item.title"></v-list-item-title>
-                    </v-item-content>
+                    </v-list-item-content>
                 </v-list-item>
             </template>
         </v-list>

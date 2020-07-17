@@ -1,11 +1,9 @@
 <template>
     <v-snackbar v-model="alert" :color="type" top>
         {{text}}
-        <template>
-            <v-btn dark text @click="close">
-                Close
-            </v-btn>
-        </template>
+        <v-btn dark text @click="close">
+            Close
+        </v-btn>
     </v-snackbar>
 </template>
 <script>
@@ -23,9 +21,9 @@ export default {
             get() {
                 return this.status
             },
-            set: () => {
+            set: (value) => {
                 this.setAlert({
-                    status: true,
+                    status: value,
                     text: 'text',
                     type: 'type'
                 })

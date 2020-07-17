@@ -106,7 +106,7 @@ export default {
     logout() {
       let config = {
         headers: {
-          'Auhtorized' : 'Bearer ' + this.user.api_token,
+          'Authorization' : 'Bearer ' + this.user.api_token,
         }
       }
 

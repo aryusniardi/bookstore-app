@@ -17,8 +17,8 @@
     <v-spacer></v-spacer>
 
     <!-- header bagian kanan -->
-    <v-btn icon>
-      <v-badge left overlap color="blue">
+    <v-btn icon @click="cart()">
+      <v-badge left overlap color="red">
         <span slot="badge" v-if="countCart > 0">{{countCart}}</span>
         <span slot="badge" v-else>0</span>
         <v-icon>shopping_cart</v-icon>
@@ -57,6 +57,11 @@ export default {
       this.setComponent('search'),
       this.setSideBar(false)
     },
+    cart() {
+      this.setStatusDialog(true),
+      this.setComponent('cart'),
+      this.setSideBar(false)
+    }
   },
   computed: {
     ...mapGetters({

@@ -37,6 +37,7 @@ import CAlert from '@/components/CAlert.vue'
 import Search from '@/views/Search.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
+import Cart from '@/views/Cart.vue'
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -48,8 +49,9 @@ export default {
     CSideBar,
     CAlert,
     Search,
+    Cart,
     Login,
-    Register
+    Register,
   },
   methods: {
     ...mapActions({
@@ -68,7 +70,7 @@ export default {
       set(value) {
         this.setStatusDialog(value)
       } 
-    }
+    },
   }
 }
 </script>
