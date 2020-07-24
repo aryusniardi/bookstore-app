@@ -42,9 +42,6 @@ export default {
                 state.carts.splice(idx, 1)
             }
         },
-        set: (state, payload) => {
-            state.carts = payload
-        }
     },
     actions: {
         add: ({state, commit}, payload) => {
@@ -54,6 +51,9 @@ export default {
         remove: ({state, commit}, payload) => {
             let cartItem = state.carts.find(item => item.id === payload.id)
             !cartItem ? commit('insert', payload) : commit('reduce', cartItem)
+        },
+        set: (state, payload) => {
+            state.carts = payload
         }
     }, 
     getters: {

@@ -85,12 +85,13 @@ export default {
             setStatusDialog: 'dialog/setStatus',
             setAlert: 'alert/set',
             addCart: 'cart/add',
+            setCart: 'cart/set',
             removeCart: 'cart/remove',
-            setCart: 'cart/set'
         }),
         checkout() {
             this.$emit('closed', false),
-            this.$router.push({path: "/checkout"})
+            this.$router.push({path: '/checkout'})
+            this.setStatusDialog(false)
         },
         close() {
             this.setStatusDialog(false)
